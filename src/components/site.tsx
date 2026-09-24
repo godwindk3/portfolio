@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { portfolio } from "@/content/portfolio";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true">{diagonal ? "↗" : "→"}</span>;
@@ -20,13 +21,16 @@ export function Header() {
           </span>
           <span className="brand-name">{portfolio.name}</span>
         </Link>
-        <nav aria-label="Main navigation">
-          <Link href="/#work">Work</Link>
-          <Link href="/#about">About</Link>
-          <Link href="/#contact">
-            Contact <Arrow diagonal />
-          </Link>
-        </nav>
+        <div className="header-controls">
+          <nav aria-label="Main navigation">
+            <Link href="/#work">Work</Link>
+            <Link href="/#about">About</Link>
+            <Link className="nav-contact" href="/#contact">
+              Contact <Arrow diagonal />
+            </Link>
+          </nav>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
