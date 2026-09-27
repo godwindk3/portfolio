@@ -335,6 +335,45 @@ export default function JobLakeCaseStudy() {
               are not copied into the serving tables. A dry-run stages data and
               reports changes without applying them.
             </p>
+            <h3>Optional AI enrichment with source evidence</h3>
+            <p>
+              A separate, manually triggered Airflow DAG extracts experience
+              bounds, seniority levels, work mode, employment type, and required
+              versus preferred skills from eligible parsed content. Ingestion
+              and serving sync can continue without enrichment. The website
+              never calls a model during a search request.
+            </p>
+            <p>
+              Structured output is checked against a fixed schema, allowed
+              values, numeric bounds, and verbatim excerpts from the input.
+              Missing information stays unknown. Matching excerpts establish
+              provenance; they do not guarantee that every interpretation is
+              correct. Successful results are tied to a content hash so changed
+              job descriptions do not reuse an older extraction.
+            </p>
+            <p>
+              A persistent queue records attempts, delayed retries, provider
+              cooldowns, and request/token reservations. One valid result is
+              enough per content version; no second model acts as a judge.
+              Enrichment covers eligible new or changed content, not every
+              historical listing. Evidence and provider metadata stay in the
+              pipeline; the serving copy exposes the fields needed by the web.
+            </p>
+            <h3>Filters that preserve missing information</h3>
+            <p>
+              Database-side filters combine minimum experience, seniority,
+              work mode, multiple cities and sources, and a recent time window
+              before pagination. Values within a group use OR; groups combine
+              with AND. Unknown values remain selectable, and original job
+              content stays available for comparison.
+            </p>
+            <p>
+              When a publication date is absent, filtering and sorting use the
+              posting’s first-seen timestamp. The interface labels this as first
+              recorded rather than claiming it is the publication date. Shared
+              in-flight reads reduce duplicate queries within one web instance;
+              bounded queues and query timing logs help diagnose overload.
+            </p>
             <h3>Search and the web read path</h3>
             <p>
               PostgreSQL full-text search uses normalized text and GIN indexes.
@@ -513,7 +552,11 @@ export default function JobLakeCaseStudy() {
             </ul>
             <p>
               Pipeline revision <code>{joblake.sourceCommit.slice(0, 7)}</code>{" "}
-              · Web revision <code>{joblake.webCommit.slice(0, 7)}</code>.
+              · Web revision <code>{joblake.webCommit.slice(0, 7)}</code>. The
+              original source links remain pinned to the earlier reviewed
+              pipeline revision. Enrichment and filter additions were checked
+              against the local pipeline implementation on 27 September 2026;
+              those additions are not yet included in the linked revision.
             </p>
             <p>
               The repository includes tests for parsers, state transitions,

@@ -64,8 +64,9 @@ export function Architecture({ compact = false }: { compact?: boolean }) {
         <strong>Next.js on Vercel</strong>
       </div>
       <figcaption>
-        Airflow orchestrates ingestion phases. A separate sync publishes active
-        listings; the website reads the serving database.
+        Airflow orchestrates ingestion and an independent, optional AI enrichment
+        phase. Validated requirements join current parsed records in PostgreSQL.
+        A separate sync publishes active listings; the website reads the serving database.
       </figcaption>
     </figure>
   );

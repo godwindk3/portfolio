@@ -46,3 +46,14 @@ Some pipeline architecture documents still refer to SQLite, four source DAGs, or
 - The website displays no standalone phone number or home address. The résumé is the original user-supplied public document, which contains its original contact details.
 
 Only source and configuration were inspected for this content review. The portfolio build does not execute crawlers, query JobLake databases, run migrations, or modify either source repository.
+
+
+## Enrichment and privacy update — 27 September 2026
+
+Reviewed local joblake HEAD 5808348 plus uncommitted enrichment/search-v2 changes, and deployed web d50c284. Existing source links stay pinned to the original revision; no new links claim unpublished files exist there.
+
+- Extraction fields, enums, numeric bounds and verbatim evidence checks: src/joblake/enrichment/schema.py. Evidence validation is not proof of semantic correctness.
+- Content identity, persistent queue, attempts and provider budgets: enrichment/service.py, store.py, sql/enrichment.sql and docs/operations/enrichment.md.
+- Independent manual DAG: orchestration/airflow/dags/joblake_enrichment.py. No historical backfill or full coverage claimed.
+- Serving projection and filters: enrichment/serving.py, supabase_sync.py, sql/serving_search_v2.sql; web docs/FILTERS_CONTRACT.md and src/lib/jobs.ts.
+- Removed Zalo from shared contact data and all generated contact links at the user's request. The supplied resume PDF is unchanged.

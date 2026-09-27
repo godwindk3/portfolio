@@ -21,7 +21,6 @@ export const portfolio = {
     email: "buinguyenphong2003.work@gmail.com",
     github: "https://github.com/godwindk3",
     linkedin: "https://www.linkedin.com/in/phong-bui-ab41a1408/",
-    zalo: "https://zalo.me/0795124069",
     resume: "/resume.pdf",
   },
   currentFocus: [
@@ -101,11 +100,11 @@ export const portfolio = {
     {
       slug: "joblake",
       name: "JobLake",
-      category: "Data ingestion · Search · Web",
+      category: "Data ingestion · AI enrichment · Search",
       period: "Jun 2026 — Present",
       description: "From scattered job postings to searchable data.",
       summary:
-        "A personal project connecting a Python ingestion pipeline with a job-search website. Source-specific crawlers collect raw HTML, parsers normalize it, and a separate serving layer makes the results searchable.",
+        "A personal project connecting a Python ingestion pipeline with a job-search website. Source-specific crawlers collect raw HTML, parsers normalize it, and optional AI enrichment extracts structured requirements with source evidence. A separate serving layer powers search, filters, and statistics.",
       stack: ["Python", "PostgreSQL", "MinIO", "Airflow", "Next.js"],
       live: "https://joblake-web.vercel.app",
       github: "https://github.com/godwindk3/joblake",
@@ -121,6 +120,5 @@ export const contactLinks = [
   },
   { label: "GitHub", href: portfolio.contact.github },
   { label: "LinkedIn", href: portfolio.contact.linkedin },
-  { label: "Zalo", href: portfolio.contact.zalo },
   { label: "Resume", href: portfolio.contact.resume },
 ].filter((link) => link.href);

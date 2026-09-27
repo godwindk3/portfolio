@@ -2,10 +2,10 @@ export const joblake = {
   title: "JobLake",
   subtitle: "Following a job posting from raw HTML to a searchable record.",
   description:
-    "A personal engineering project spanning two repositories: a Python ingestion pipeline and a Next.js website. It brings together source-specific crawling, recoverable processing, relational storage, and a small, read-only search experience.",
-  reviewed: "24 September 2026",
+    "A personal engineering project spanning two repositories: a Python ingestion pipeline and a Next.js website. It brings together source-specific crawling, recoverable processing, relational storage, evidence-backed AI enrichment, and a read-only search experience with structured filters.",
+  reviewed: "27 September 2026",
   sourceCommit: "90927928429a57ece5723d8b103ba2ac8b7095fb",
-  webCommit: "638a8e095fe6cabb8ea92d09a6c5d6e1399cf90f",
+  webCommit: "d50c284caf0e8ee147eb3d511f8ff493a7df45f1",
   sources: [
     "ITviec",
     "TopCV",
