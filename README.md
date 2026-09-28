@@ -23,7 +23,7 @@ npm start
 - `src/content/joblake.ts`: case-study facts, source revisions, decisions, problems, lessons, and proposed improvements.
 - `src/app/projects/joblake/page.tsx`: detailed technical narrative and case-study sections.
 - `src/components/architecture.tsx`: the implemented data flow. Update when the system changes.
-- `public/resume.pdf`: supplied résumé dated 23 September 2026. Replace with a new public résumé and keep the configured link consistent.
+- `public/resume.pdf`: supplied résumé dated 28 September 2026. Replace with a new public résumé and keep the configured link consistent.
 - `public/joblake.webp`: screenshot of the real website, captured 24 September 2026.
 
 Do not turn learning areas into claims of professional experience. Review current source code before changing architectural claims. The frontend repository is private; the portfolio deliberately links only to public pipeline source and the live website.
