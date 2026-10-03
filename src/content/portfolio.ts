@@ -100,11 +100,11 @@ export const portfolio = {
     {
       slug: "joblake",
       name: "JobLake",
-      category: "Data ingestion · AI enrichment · Search",
+      category: "Data ingestion · AI enrichment · Search & insights",
       period: "Jun 2026 — Present",
       description: "From scattered job postings to searchable data.",
       summary:
-        "A personal project connecting a Python ingestion pipeline with a job-search website. Source-specific crawlers collect raw HTML, parsers normalize it, and optional AI enrichment extracts structured requirements with source evidence. A separate serving layer powers search, filters, and statistics.",
+        "An end-to-end project connecting crawlers for nine job sources with a live search website. The Python pipeline preserves raw HTML, normalizes records, and optionally extracts requirements with AI. PostgreSQL powers full-text search, structured filters, and skill matching; a dashboard shows statistics and data coverage for the selected filters.",
       stack: ["Python", "PostgreSQL", "MinIO", "Airflow", "Next.js"],
       live: "https://joblake-web.vercel.app",
       github: "https://github.com/godwindk3/joblake",

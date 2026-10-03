@@ -9,11 +9,11 @@ import { joblake, sourceUrl } from "@/content/joblake";
 export const metadata: Metadata = {
   title: "JobLake — Engineering Case Study",
   description:
-    "How JobLake collects, validates, stores, and serves job listings: raw HTML in MinIO, PostgreSQL state, Airflow orchestration, and a Next.js search website.",
+    "How JobLake turns raw job postings into searchable records: Python ingestion, optional AI enrichment, PostgreSQL skill filters, and a Next.js dashboard with data coverage.",
   openGraph: {
     title: "JobLake — Engineering Case Study",
     description:
-      "From raw HTML to searchable records. Architecture, failure handling, trade-offs, and lessons from a personal data engineering project.",
+      "From raw HTML to skill filters and filtered insights. Architecture, recovery, data quality, and trade-offs in a personal engineering project.",
   },
 };
 
@@ -355,9 +355,21 @@ export default function JobLakeCaseStudy() {
               A persistent queue records attempts, delayed retries, provider
               cooldowns, and request/token reservations. One valid result is
               enough per content version; no second model acts as a judge.
-              Enrichment covers eligible new or changed content, not every
-              historical listing. Evidence and provider metadata stay in the
-              pipeline; the serving copy exposes the fields needed by the web.
+              The regular enrichment run covers eligible new or changed content.
+              A separate backfill DAG can select older active jobs by date,
+              source, or posting ID, with a read-only preview by default and
+              explicit job/API-attempt limits. It shares the existing queue and
+              provider budgets; publishing results still requires a separate
+              serving sync. This capability does not imply complete coverage.
+              Evidence and provider metadata stay in the pipeline.
+            </p>
+            <p>
+              The worker also supports grouping up to three jobs in one Gemini
+              request, validating each result against its own ID and source
+              text. Successful members are retained when another member fails.
+              The current configuration still uses one job per request; grouped
+              requests are an implemented option, not a measured cost or quality
+              improvement.
             </p>
             <h3>Filters that preserve missing information</h3>
             <p>
@@ -374,6 +386,35 @@ export default function JobLakeCaseStudy() {
               in-flight reads reduce duplicate queries within one web instance;
               bounded queues and query timing logs help diagnose overload.
             </p>
+            <h3>Skill matching and filtered insights</h3>
+            <p>
+              A shared catalogue maps known skill names and aliases to 221
+              canonical keys. Search accepts up to ten skills: ANY matches at
+              least one, while ALL requires every selected key. Visitors can
+              limit matching to required skills or include preferred skills.
+              Unknown labels remain in the original extraction; the registry
+              does not infer skills from job titles.
+            </p>
+            <p>
+              The statistics dashboard uses the same filters as the job list.
+              It shows top skills and distributions by minimum experience,
+              seniority, work mode, location, and source. Clicking a group opens
+              the corresponding job selection, and switching between search
+              and statistics preserves filters in the URL.
+            </p>
+            <p>
+              Counts include their denominator, calculation time, and coverage
+              for extracted and normalized data. Missing enrichment is not
+              interpreted as a job having no requirements. These are snapshots
+              of the collected listings, not estimates of the entire labor
+              market; duplicate postings across sources are still separate.
+            </p>
+            <div className="note">
+              <strong>Matching limit:</strong> skill lists do not preserve every
+              alternative in the original wording. A requirement such as
+              “Python or C#” can yield both skill keys, so an ALL match still
+              needs to be checked against the original job description.
+            </div>
             <h3>Search and the web read path</h3>
             <p>
               PostgreSQL full-text search uses normalized text and GIN indexes.
@@ -431,6 +472,20 @@ export default function JobLakeCaseStudy() {
               in-progress data. It records deletion intent, validates the
               object, and marks intentional removal. Parsed records remain, but
               deleted HTML cannot be reparsed without another fetch.
+            </p>
+            <h3>Protecting the public read path</h3>
+            <p>
+              The database credential stays on the server, with a restricted
+              reader role and TLS certificate and hostname verification.
+              Search inputs, page sizes, pending cache loads, and database
+              reads have explicit limits. Job lists omit long descriptions;
+              details load separately.
+            </p>
+            <p>
+              The deployment record from 2 October documents Vercel Bot
+              Protection challenges and an IP rate limit on data-reading
+              routes. These controls reduce automated traffic; they do not
+              prevent copying public data or prove large-scale capacity.
             </p>
             <h3>Deployment boundaries</h3>
             <p>
@@ -551,12 +606,14 @@ export default function JobLakeCaseStudy() {
               </li>
             </ul>
             <p>
-              Pipeline revision <code>{joblake.sourceCommit.slice(0, 7)}</code>{" "}
-              · Web revision <code>{joblake.webCommit.slice(0, 7)}</code>. The
-              original source links remain pinned to the earlier reviewed
-              pipeline revision. Enrichment and filter additions were checked
-              against the local pipeline implementation on 27 September 2026;
-              those additions are not yet included in the linked revision.
+              Reviewed local pipeline revision{" "}
+              <code>{joblake.reviewedPipelineCommit.slice(0, 7)}</code> · Web
+              revision <code>{joblake.webCommit.slice(0, 7)}</code>. Source links
+              remain pinned to the earlier pipeline revision{" "}
+              <code>{joblake.sourceCommit.slice(0, 7)}</code>. They illustrate the
+              original ingestion and serving design; the newer enrichment,
+              backfill, grouping, and skill features were reviewed in the local
+              code and are not represented by those older links.
             </p>
             <p>
               The repository includes tests for parsers, state transitions,

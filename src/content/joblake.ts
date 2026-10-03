@@ -1,11 +1,12 @@
 export const joblake = {
   title: "JobLake",
-  subtitle: "Following a job posting from raw HTML to a searchable record.",
+  subtitle: "From raw job postings to searchable records and filtered insights.",
   description:
-    "A personal engineering project spanning two repositories: a Python ingestion pipeline and a Next.js website. It brings together source-specific crawling, recoverable processing, relational storage, evidence-backed AI enrichment, and a read-only search experience with structured filters.",
-  reviewed: "27 September 2026",
+    "A personal engineering project spanning a Python ingestion pipeline and a Next.js website. It combines recoverable crawling, versioned parsing, AI extraction checked against source excerpts, and a compact serving database. Visitors can search and filter jobs by structured requirements and skills, then explore statistics for the same selection.",
+  reviewed: "3 October 2026",
+  reviewedPipelineCommit: "d6cdce7fe0a8e163c94262bab672efdd145b6326",
   sourceCommit: "90927928429a57ece5723d8b103ba2ac8b7095fb",
-  webCommit: "d50c284caf0e8ee147eb3d511f8ff493a7df45f1",
+  webCommit: "1cce2d1bbea31cbc320e1e63e51c5ee1c3537356",
   sources: [
     "ITviec",
     "TopCV",
@@ -125,6 +126,10 @@ export const joblake = {
     },
   ],
   next: [
+    {
+      title: "Evaluate extraction quality and coverage",
+      text: "Use a labeled sample to assess extracted requirements and skill aliases. Expand enrichment coverage deliberately, and benchmark grouped model requests before changing the current single-job default.",
+    },
     {
       title: "Measure freshness end to end",
       text: "Surface the last successful crawl, parse, and serving sync together. A healthy task alone does not prove that the website has fresh data.",

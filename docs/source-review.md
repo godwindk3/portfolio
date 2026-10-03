@@ -57,3 +57,17 @@ Reviewed local joblake HEAD 5808348 plus uncommitted enrichment/search-v2 change
 - Independent manual DAG: orchestration/airflow/dags/joblake_enrichment.py. No historical backfill or full coverage claimed.
 - Serving projection and filters: enrichment/serving.py, supabase_sync.py, sql/serving_search_v2.sql; web docs/FILTERS_CONTRACT.md and src/lib/jobs.ts.
 - Removed Zalo from shared contact data and all generated contact links at the user's request. The supplied resume PDF is unchanged.
+
+
+## Search, insights and enrichment review — 3 October 2026
+
+- Reviewed clean pipeline HEAD d6cdce7fe0a8e163c94262bab672efdd145b6326 and web HEAD 1cce2d1bbea31cbc320e1e63e51c5ee1c3537356 before the contact edit. Older source URLs remain pinned to 9092792; the page separately identifies the current reviewed local revision. No claim that newer pipeline code is available at the old public links.
+- Skill normalization: pipeline src/joblake/skills/__init__.py and catalogue.json; web src/lib/skill-catalogue.json, skills.ts, query.ts and jobs.ts. 221 entries, at most ten selected keys, ANY/ALL, required or required+preferred. Search uses serving.search_jobs_v3.
+- Filtered statistics: src/lib/statistics.ts, insights.ts, insight-query.ts and statistics UI; serving.job_statistics_v1 receives the same filters. Coverage, unknown values, denominator and drilldown are implemented. Statistics cache is five minutes per instance.
+- Historical enrichment: pipeline enrichment/backfill.py and joblake_enrichment_backfill DAG implement date/source/ID selection, read-only preview, job/API limits and shared queue budgets. Backfill availability is not proof that historical data has all been processed.
+- Grouped model calls: enrichment/service.py and schema.py support up to three Gemini jobs and per-member validation/results. configs/enrichment.yaml still sets batch_size: 1. No token savings, throughput or quality improvement claimed.
+- Access protection: TLS and bounded reads verified in web source. Firewall configuration is described as the deployment record from 2 October (web docs/SKILLS_INSIGHTS.md), not a fresh control-plane verification.
+- Refreshed home project summary, case-study metadata, technical narrative, architecture caption and next steps. Kept the screenshot labeled with its original capture date; resume and personal career history are unchanged.
+- Portfolio public URL supplied by the user: https://buinguyenphong.vercel.app/.
+
+Validation for this edit: Node 24.19 production build and typecheck passed. No lint or test script is defined in this repo. Browser QA used the built app on localhost:3121: home → case study → back, light/dark, desktop and 360px mobile, no horizontal overflow and no console errors/warnings in the checked tabs. The original screenshot remains explicitly dated; no database or model calls were run by the portfolio. Changes are local, not committed/pushed/deployed. Next: publish this repo separately alongside the JobLake contact update, then confirm both public domains.

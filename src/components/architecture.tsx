@@ -65,8 +65,9 @@ export function Architecture({ compact = false }: { compact?: boolean }) {
       </div>
       <figcaption>
         Airflow orchestrates ingestion and an independent, optional AI enrichment
-        phase. Validated requirements join current parsed records in PostgreSQL.
-        A separate sync publishes active listings; the website reads the serving database.
+        phase. Validated requirements and normalized skill keys join current parsed records.
+        A separate sync publishes active listings to power search, skill filters,
+        and statistics with data coverage.
       </figcaption>
     </figure>
   );
